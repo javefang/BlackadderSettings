@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="hello">Hello World, BlackadderSettingsActivity!</string>
+    <string name="app_name">BlackadderSettings</string>
+    <string name="turn_on_ba">Turn on Blackadder</string>
+    <string name="turn_off_ba">Turn off Blackadder</string>
+    <string name="ba_name">Blackadder</string>
+
+</resources>
