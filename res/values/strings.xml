@@ -6,5 +6,6 @@
     <string name="turn_on_ba">Turn on Blackadder</string>
     <string name="turn_off_ba">Turn off Blackadder</string>
     <string name="ba_name">Blackadder</string>
+    <string name="no_conf_hint">No conf in /sdcard/blackadder</string>
 
 </resources>
