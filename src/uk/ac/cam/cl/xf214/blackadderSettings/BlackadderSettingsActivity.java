@@ -85,6 +85,7 @@ public class BlackadderSettingsActivity extends Activity {
 			@Override
 			public void onCheckedChanged(CompoundButton buttonView,
 					boolean isChecked) {
+				confList.setEnabled(!isChecked);
 				if (isChecked) {
 					startBlackadder();
 				} else {
@@ -110,9 +111,15 @@ public class BlackadderSettingsActivity extends Activity {
     
     private boolean isBlackadderStarted() {
     	try {
-			Vector<String> echos = su.execSync("ps | grep click");
-			Log.i(TAG, "Is Blackadder started? size = " + echos.size());
-			return echos.size() > 0;
+			Vector<String> echos = su.execSync("pgrep -fl [c]lick");
+			for (String ps : echos) {
+				Log.i(TAG, "Got: " + ps);
+				if (ps.trim().endsWith(CLICK_EXEC + " " + confFilePath)) {
+					Log.i(TAG, "Found running Blackadder instance!");
+					return true;
+				}
+			}
+			return false; 
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
