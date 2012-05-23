@@ -23,6 +23,7 @@ public class BlackadderSettingsActivity extends Activity {
 	public static final String CLICK_EXEC = CLICK_HOME + "/bin/click";
 	public static final String CLICK_LIB = CLICK_HOME + "/lib";
 	public static final String DEFAULT_CONF_DIR = "/sdcard/blackadder/";
+	public static final String DEFAULT_IFACE = "tap0";
 	
 	private String confFilePath;
 	private TextView lblCurConfFile;
@@ -87,7 +88,12 @@ public class BlackadderSettingsActivity extends Activity {
 					boolean isChecked) {
 				confList.setEnabled(!isChecked);
 				if (isChecked) {
-					startBlackadder();
+					if (testInterface()) {
+						startBlackadder();
+					} else {
+						toastMessage("Cannot start Blackadder: tap0 is not ready!");
+						baSwitch.setChecked(false);
+					}
 				} else {
 					killBlackadder();
 				}
@@ -132,6 +138,21 @@ public class BlackadderSettingsActivity extends Activity {
     	
     }
     
+    private boolean testInterface() {
+    	try {
+			Vector<String> out = su.execSync("ifconfig " + DEFAULT_IFACE);
+			return !out.isEmpty();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return false;
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return false;
+		}
+    }
+    
     private void startBlackadder() {
 		try {
 			su.execSync(CLICK_EXEC + " " + confFilePath + "&");
@@ -160,7 +181,7 @@ public class BlackadderSettingsActivity extends Activity {
     
     private void setLdPath() {
     	try {
-			su.execSync("LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/data/click/lib/");
+			su.execSync("export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/data/click/lib/");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
