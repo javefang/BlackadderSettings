@@ -6,7 +6,8 @@ function badebug() {
 	echo "[build-ba] $*"
 }
 
-badebug "Setting prefix path owner..."
+badebug "Configuring prefix path..."
+sudo mkdir -p "/data/click"
 sudo chown "$USER": "$CLICK_PREFIX"
 
 badebug "Compiling click..."
