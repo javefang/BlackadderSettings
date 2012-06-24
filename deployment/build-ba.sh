@@ -1,13 +1,20 @@
 #!/bin/bash
-export ANDROID_NDK="/home/jave/program/android-ndk-r7"
-export CLICK_PREFIX="/data/click"
-
 function badebug() {
 	echo "[build-ba] $*"
 }
+WORKING_DIR=`pwd`
+
+if [ -z $ANDROID_NDK ]
+then
+	badebug "Variable ANDROID_NDK not set, configure local NDK..."
+	./config-ndk.sh
+	export ANDROID_NDK="android-ndk-r8"
+	export PATH=$PATH:"$WORKING_DIR/my-ndk-r8/bin"
+fi
 
 badebug "Configuring prefix path..."
-sudo mkdir -p "/data/click"
+export CLICK_PREFIX="/data/click"
+sudo mkdir -p "$CLICK_PREFIX"
 sudo chown "$USER": "$CLICK_PREFIX"
 
 badebug "Compiling click..."
@@ -31,4 +38,4 @@ rm -r $CLICK_PREFIX/share
 rm -r $CLICK_PREFIX/include
 find $CLICK_PREFIX/bin -type f | grep -v click$ | xargs rm
 
-
+badebug "Click and Blackadder source compiled!"

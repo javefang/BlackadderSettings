@@ -1,0 +1,8 @@
+1. Get source code from GitHub
+	$ ./get-src.sh
+
+2. Compile source code (enter sudo password when necessary)
+	$ ./build-ba.sh
+
+3. Deploy compiled binaries and libraries to Android device
+	$ ./deploy-ba.sh
